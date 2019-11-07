@@ -1,0 +1,74 @@
+﻿@model Lucilvio.TicketMe.AnemicModel.User.MyTickets.MyTicketsViewModel
+@using Lucilvio.TicketMe.AnemicModel.Domain.Ticket
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Tickets";
+}
+
+<div class="row mb-4">
+    <div class="col-lg-12">
+        <h1 class="display-4"> Tickets </h1>
+        <p class="text-uppercase small text-muted"> User / <span class="font-weight-bold"> MyTickets </span></p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card-deck">
+
+            @if (Model.TicketsList.Any())
+            {
+                @foreach (var ticket in Model.TicketsList)
+                {
+                    <div class="col-lg-12 m-1">
+                        <div class="card">
+
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h5> @ticket.Title </h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        @if (ticket.State != TicketState.Used)
+                                        {
+                                            <img class="card-img-top disabled" src="~/img/Ticket.png" />
+                                        }
+                                        else
+                                        {
+                                            <img class="card-img-top disabled" src="~/img/Ticket.png" />
+                                        }
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <p class="card-text"> @ticket.Description </p>
+                                        <p class="card-text"><small class="text-muted"> Expiration @ticket.ExpirationDate.ToShortDateString() </small></p>
+
+                                        @if (ticket.State != TicketState.Used)
+                                        {
+                                            <form action="@Url.Action("UseTicket")" method="post">
+                                                <input type="hidden" name="id" value="@ticket.Id" />
+                                                <button class="btn btn-primary" type="submit"> Use </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <p class="card-text badge badge-danger">
+                                                USED
+                                            </p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-center align-content-center text-muted">
+                    <h1 class="display-1"> You don't have tickets </h1>
+                </div>
+            }
+        </div>
+    </div>
+</div>

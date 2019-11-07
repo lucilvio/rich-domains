@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lucilvio.TicketMe.AnemicModel", "Lucilvio.TicketMe.AnemicModel.csproj", "{329242EA-8875-4296-8098-FA84F1CCF406}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AnemicModel", "AnemicModel", "{49014CAC-02F4-4296-930B-D0E742905D33}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RichModel", "RichModel", "{281D0726-C1D4-45F2-9332-3E621B615B5D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{329242EA-8875-4296-8098-FA84F1CCF406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{329242EA-8875-4296-8098-FA84F1CCF406}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{329242EA-8875-4296-8098-FA84F1CCF406}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{329242EA-8875-4296-8098-FA84F1CCF406}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{329242EA-8875-4296-8098-FA84F1CCF406} = {49014CAC-02F4-4296-930B-D0E742905D33}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68FD3BF6-AD55-4E8D-8422-6C2FB4F0D198}
+	EndGlobalSection
+EndGlobal

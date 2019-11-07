@@ -1,0 +1,47 @@
+﻿@model Lucilvio.TicketMe.AnemicModel.Tickets.TicketsViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Tickets";
+}
+
+<div class="row mb-4">
+    <div class="col-lg-12">
+        <h1 class="display-4"> Tickets </h1>
+        <p class="text-uppercase small text-muted"> / <span class="font-weight-bold"> Tickets </span></p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card-deck">
+
+            @if(Model.TicketList.Any())
+            {
+                @foreach (var ticket in Model.TicketList)
+                {
+                    <div class="col-lg-3">
+                        <a class="card-link" href="Tickets/Details/@ticket.Id">
+                            <div class="card">
+                                <img class="card-img-top" src="~/img/Ticket.png" />
+                                <div class="card-body">
+                                    <h5 class="card-title"> @ticket.Title </h5>
+                                    <p class="card-text"> @ticket.Description </p>
+                                    <p class="card-text"><small class="text-muted"> Expiration @ticket.ExpirationDate.ToShortDateString() </small></p>
+                                </div>
+                                <div class="card-footer float-right" accesskey="">
+                                    <p> <span class="font-weight-bold">@ticket.Price</span> Point(s) </p>
+                                </div>  
+                            </div>
+                        </a>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-center align-content-center text-muted">
+                    <h1 class="display-1"> No Tickets to sell </h1>
+                </div>
+            }
+        </div>
+    </div>
+</div>

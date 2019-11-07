@@ -1,0 +1,78 @@
+using Lucilvio.TicketMe.AnemicModel.Tickets;
+using Lucilvio.TicketMe.AnemicModel.User;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace Lucilvio.TicketMe
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.ViewLocationExpanders.Clear();
+                options.ViewLocationFormats.Add("/Shared/{0}" + RazorViewEngine.ViewExtension);
+                options.ViewLocationFormats.Add("/{1}/{0}" + RazorViewEngine.ViewExtension);
+                options.ViewLocationFormats.Add("/{1}/{0}/{0}" + RazorViewEngine.ViewExtension);
+            });
+
+            services.AddSingleton(new MemoryContext());
+
+            services.AddScoped<ITicketsServiceRepository, TicketsServiceRepositoryInMemory>();
+            services.AddScoped<ITicketDetailServiceRepository, TicketDetailServiceDetailRepositoryInMemory>();
+            services.AddScoped<IBuyTicketServiceRepository, BuyTicketServiceRepositoryInMemory>();
+            services.AddScoped<IUserServiceRepository, UserServiceRepositoryInMemory>();
+            services.AddScoped<IUseUserTicketServiceRepository, UseUserTicketServiceRepositoryInMemory>();
+
+            services.AddScoped<ITicketsService, TicketsService>();
+            services.AddScoped<ITicketsService, TicketsService>();
+            services.AddScoped<ITicketDetailService, TicketDetailService>();
+            services.AddScoped<IBuyTicketService, BuyTicketService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUseUserTicketService, UseUserticketService>();
+
+            services.AddControllersWithViews();
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Tickets}/{action=Tickets}/{id?}");
+            });
+        }
+    }
+}
