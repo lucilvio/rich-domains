@@ -1,0 +1,68 @@
+﻿@model Lucilvio.TicketMe.AnemicModel.Tickets.TicketsViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Manage Tickets";
+}
+
+<div class="row mb-4">
+    <div class="col-lg-12">
+        <h1 class="display-4"> Manage Tickets </h1>
+        <p class="text-uppercase small text-muted"> <a class="font-weight-bold" href="@Url.Action("Tickets", "Tickets")">Home</a> / <span class="font-weight-bold"> Manage Tickets </span></p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card-deck">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th> Title </th>
+                        <th> Description </th>
+                        <th> Price </th>
+                        <th> State </th>
+                        <th> </th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.TicketList.Any())
+                    {
+                        @foreach (var ticket in Model.TicketList)
+                        {
+                            <tr>
+                                <td>@ticket.Title</td>
+                                <td>@ticket.Description</td>
+                                <td>@ticket.Price Point(s)</td>
+                                <td>@ticket.State</td>
+                                <td> <a href="@Url.Action("EditTicket", new { Id = ticket.Id })" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a> </td>
+
+                                @if (ticket.State == Lucilvio.TicketMe.AnemicModel.Domain.Ticket.TicketState.Available)
+                                {
+                                    <td> <a href="@Url.Action("DisableTicket", new { Id = ticket.Id })" data-toggle="tooltip" title="Disable"><i class="fa fa-ban"></i></a> </td>
+                                }
+
+                                @if (ticket.State == Lucilvio.TicketMe.AnemicModel.Domain.Ticket.TicketState.Disabled)
+                                {
+                                    <td> <a href="@Url.Action("EnableTicket", new { Id = ticket.Id })" data-toggle="tooltip" title="Enable"><i class="fa fa-check"></i></a> </td>
+                                }
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6"> No tickets to manage </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row float-right">
+    <div class="col-lg-12">
+        <a class="btn btn-primary" href="@Url.Action("NewTicket", "Tickets")"> New Ticket </a>
+    </div>
+</div>

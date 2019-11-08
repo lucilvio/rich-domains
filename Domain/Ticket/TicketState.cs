@@ -3,6 +3,7 @@
     public enum TicketState
     {
         Available,
+        Disabled,
         Sold,
         Used
     }

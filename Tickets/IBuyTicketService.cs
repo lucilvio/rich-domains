@@ -1,12 +1,12 @@
-﻿using Lucilvio.TicketMe.AnemicModel.Domain.Ticket;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Lucilvio.TicketMe.AnemicModel.Domain.Ticket;
 
 namespace Lucilvio.TicketMe.AnemicModel.Tickets
 {
     public interface IBuyTicketService
     {
-        void Buy(int userId, int ticketId);
+        void Buy(Guid clientId, Guid ticketId);
     }
 
     public class BuyTicketService : IBuyTicketService
@@ -18,21 +18,21 @@ namespace Lucilvio.TicketMe.AnemicModel.Tickets
             this._repository = repository;
         }
 
-        public void Buy(int userId, int ticketId)
+        public void Buy(Guid clientId, Guid ticketId)
         {
-            var foundUser = this._repository.GetUserById(userId);
+            var foundClient = this._repository.GetClientById(clientId);
             var foundTicket = this._repository.GetTicketById(ticketId);
 
-            if (foundUser.Points < foundTicket.Price)
-                throw new Exception("User has no sufficient points to buy this ticket");
+            if (foundClient.Points < foundTicket.Price)
+                throw new Exception("The client has no sufficient points to buy this ticket");
 
-            foundUser.Points -= foundTicket.Price;
-            foundTicket.State = Domain.Ticket.TicketState.Sold;
+            foundClient.Points -= foundTicket.Price;
+            foundTicket.State = TicketState.Sold;
 
-            if (foundUser.Tickets == null)
-                foundUser.Tickets = new List<Ticket>();
+            if (foundClient.Tickets == null)
+                foundClient.Tickets = new List<Ticket>();
 
-            foundUser.Tickets.Add(foundTicket);
+            foundClient.Tickets.Add(foundTicket);
         }
     }
 }

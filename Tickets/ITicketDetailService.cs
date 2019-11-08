@@ -5,7 +5,7 @@ namespace Lucilvio.TicketMe.AnemicModel.Tickets
 {
     public interface ITicketDetailService
     {
-        Ticket GetTicketDetails(int id);
+        Ticket GetTicketDetails(Guid ticketId);
     }
 
     public class TicketDetailService : ITicketDetailService
@@ -17,9 +17,9 @@ namespace Lucilvio.TicketMe.AnemicModel.Tickets
             this._ticketDetailServiceRepository = ticketDetailServiceRepository;
         }
 
-        public Ticket GetTicketDetails(int id)
+        public Ticket GetTicketDetails(Guid ticketId)
         {
-            return this._ticketDetailServiceRepository.GetTicketById(id);
+            return this._ticketDetailServiceRepository.GetTicketById(ticketId);
         }
     }
 

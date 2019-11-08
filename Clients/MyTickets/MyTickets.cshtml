@@ -1,5 +1,6 @@
-﻿@model Lucilvio.TicketMe.AnemicModel.User.MyTickets.MyTicketsViewModel
+﻿@model Lucilvio.TicketMe.AnemicModel.Clients.MyTickets.MyTicketsViewModel
 @using Lucilvio.TicketMe.AnemicModel.Domain.Ticket
+@using System.Security.Claims
 
 @{
     Layout = "_Layout";
@@ -8,8 +9,8 @@
 
 <div class="row mb-4">
     <div class="col-lg-12">
-        <h1 class="display-4"> Tickets </h1>
-        <p class="text-uppercase small text-muted"> User / <span class="font-weight-bold"> MyTickets </span></p>
+        <h1 class="display-4"> My Tickets </h1>
+        <p class="text-uppercase small text-muted"> <a class="font-weight-bold" href="@Url.Action("Tickets", "Tickets")">Home</a> / <span class="font-weight-bold"> My Tickets </span></p>
     </div>
 </div>
 
@@ -30,14 +31,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-2">
-                                        @if (ticket.State != TicketState.Used)
-                                        {
-                                            <img class="card-img-top disabled" src="~/img/Ticket.png" />
-                                        }
-                                        else
-                                        {
-                                            <img class="card-img-top disabled" src="~/img/Ticket.png" />
-                                        }
+                                        <img class="card-img-top disabled" src="~/img/Ticket.png" />
                                     </div>
                                     <div class="col-lg-10">
                                         <p class="card-text"> @ticket.Description </p>
@@ -46,7 +40,7 @@
                                         @if (ticket.State != TicketState.Used)
                                         {
                                             <form action="@Url.Action("UseTicket")" method="post">
-                                                <input type="hidden" name="id" value="@ticket.Id" />
+                                                <input type="hidden" name="ticketId" value="@ticket.Id" />
                                                 <button class="btn btn-primary" type="submit"> Use </button>
                                             </form>
                                         }

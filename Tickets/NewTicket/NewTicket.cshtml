@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Register New Ticket";
+}
+
+<div class="row mb-5">
+    <div class="col-lg-12">
+        <h1 class="display-4"> Register New Ticket </h1>
+        <p class="text-uppercase small"> <a class="font-weight-bold" href="@Url.Action("Tickets", "Tickets")">Home</a> / Manage Tickets / <span class="font-weight-bold"> Register New Ticket </span></p>
+    </div>
+</div>
+
+<form action="@Url.Action("RegisterNewTicket")" method="post">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label class="label"> Title </label>
+                <input type="text" name="title" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label class="label"> Description </label>
+                <textarea class="form-control" name="description" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+                <label class="label"> Price </label>
+                <input type="number" name="price" class="form-control" required />
+            </div>
+        </div>
+    </div>
+
+    <div class="row float-right">
+        <div class="col-lg-12">
+            <button type="submit" class="btn btn-primary"> Register Ticket </button>
+        </div>
+    </div>
+</form>

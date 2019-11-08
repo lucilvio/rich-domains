@@ -1,11 +1,12 @@
 ﻿using Lucilvio.TicketMe.AnemicModel.Domain.Ticket;
+using System;
 using System.Linq;
 
 namespace Lucilvio.TicketMe.AnemicModel.Tickets
 {
     public interface ITicketDetailServiceRepository
     {
-        Ticket GetTicketById(int id);
+        Ticket GetTicketById(Guid ticketId);
     }
 
     public class TicketDetailServiceDetailRepositoryInMemory : ITicketDetailServiceRepository
@@ -17,9 +18,9 @@ namespace Lucilvio.TicketMe.AnemicModel.Tickets
             this._context = context;
         }
 
-        public Ticket GetTicketById(int id)
+        public Ticket GetTicketById(Guid ticketId)
         {
-            return this._context.Tickets.FirstOrDefault(t => t.Id == id);
+            return this._context.Tickets.FirstOrDefault(t => t.Id == ticketId);
         }
     }
 }

@@ -1,11 +1,14 @@
+using Lucilvio.TicketMe.AnemicModel.Domain.Client;
 using Lucilvio.TicketMe.AnemicModel.Tickets;
-using Lucilvio.TicketMe.AnemicModel.User;
+using Lucilvio.TicketMe.AnemicModel.Clients;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Lucilvio.TicketMe.AnemicModel.Users;
 
 namespace Lucilvio.TicketMe
 {
@@ -29,20 +32,47 @@ namespace Lucilvio.TicketMe
                 options.ViewLocationFormats.Add("/{1}/{0}/{0}" + RazorViewEngine.ViewExtension);
             });
 
-            services.AddSingleton(new MemoryContext());
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                {
+                    options.LoginPath = "/Tickets/Tickets";
+                });
+
+            services.AddSingleton<IPasswordHiding, PasswordHideWithHash>();
+
+            services.AddSingleton(services =>
+            {
+                return new MemoryContext((IPasswordHiding)services.GetService(typeof(IPasswordHiding)));
+            });
 
             services.AddScoped<ITicketsServiceRepository, TicketsServiceRepositoryInMemory>();
             services.AddScoped<ITicketDetailServiceRepository, TicketDetailServiceDetailRepositoryInMemory>();
             services.AddScoped<IBuyTicketServiceRepository, BuyTicketServiceRepositoryInMemory>();
-            services.AddScoped<IUserServiceRepository, UserServiceRepositoryInMemory>();
-            services.AddScoped<IUseUserTicketServiceRepository, UseUserTicketServiceRepositoryInMemory>();
+            services.AddScoped<IClientServiceRepository, ClientServiceRepositoryInMemory>();
+            services.AddScoped<IUseClientTicketServiceRepository, UseClientTicketServiceRepositoryInMemory>();
+            services.AddScoped<IClientPointsServiceRepository, ClientPointsServiceRepositoryInMemory>();
+            services.AddScoped<IUserSignInServiceRepository, UserSignInServiceRepositoryInMemory>();
+            services.AddScoped<IRegisterNewClientServiceRepository, RegisterNewClientServiceRepositoryInMemory>();
+            services.AddScoped<IRegisterNewTicketServiceRepository, RegisterNewTicketServiceRepositoryInMemory>();
+            services.AddScoped<IManageTicketsServiceRepository, ManageTicketsServiceRepositoryInMemory>();
+            services.AddScoped<IEditTicketServiceRepository, EditTicketServiceRepositoryInMemory>();
+            services.AddScoped<IDisableTicketServiceRepository, DisableTicketServiceRepositoryInMemory>();
+            services.AddScoped<IEnableTicketServiceRepository, EnableTicketServicerepositoryInMemory>();
 
             services.AddScoped<ITicketsService, TicketsService>();
             services.AddScoped<ITicketsService, TicketsService>();
             services.AddScoped<ITicketDetailService, TicketDetailService>();
             services.AddScoped<IBuyTicketService, BuyTicketService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUseUserTicketService, UseUserticketService>();
+            services.AddScoped<IClienteService, ClientService>();
+            services.AddScoped<IUseClientTicketService, UseClientTicketService>();
+            services.AddScoped<IClientPointsService, ClientPointsService>();
+            services.AddScoped<IUserSignInService, UserSignInService>();
+            services.AddScoped<IRegisterNewClientService, RegisterNewClientService>();
+            services.AddScoped<IRegisterNewTicketService, RegisterNewTicketService>();
+            services.AddScoped<IManageTicketsService, ManageTicketsService>();
+            services.AddScoped<IEditTicketService, EditTicketService>();
+            services.AddScoped<IDisableTicketService, DisableTicketService>();
+            services.AddScoped<IEnableTicketService, EnableTicketService>();
 
             services.AddControllersWithViews();
         }
@@ -65,6 +95,7 @@ namespace Lucilvio.TicketMe
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -7,7 +7,7 @@
 <div class="row mb-4">
     <div class="col-lg-12">
         <h1 class="display-4"> Tickets </h1>
-        <p class="text-uppercase small text-muted"> / <span class="font-weight-bold"> Tickets </span></p>
+        <p class="text-uppercase small text-muted"> <span class="font-weight-bold"> Home </span></p>
     </div>
 </div>
 
@@ -19,7 +19,7 @@
             {
                 @foreach (var ticket in Model.TicketList)
                 {
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 mb-5">
                         <a class="card-link" href="Tickets/Details/@ticket.Id">
                             <div class="card">
                                 <img class="card-img-top" src="~/img/Ticket.png" />

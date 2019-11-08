@@ -12,23 +12,51 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 justify-content-between">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Lucilvio.TicketMe</a>
+                <a class="navbar-brand" href="@Url.Action("Tickets", "Tickets")">Lucilvio.TicketMe</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <p class="navbar-text">
-                        Welcome <span class="font-weight-bold"> User Name </span> <br /> <span class="float-right font-weight-bold"> 100 Point(s) </span>
-                    </p>
-                    <ul class="navbar-nav flex-grow-1">
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form action="@Url.Action("SignOut", "Users")" method="post">
+                            <p class="navbar-text">
+                                <span class="small"> Welcome <span class="font-weight-bold"> @User.Identity.Name </span> | <button class="btn btn-secondary btn-sm" type="submit"> Sign Out </button> </span> <br />
+                                <span class="float-right font-weight-bold"> <span id="points"></span> Point(s) </span>
+                            </p>
+                        </form>
+                    }
+                    else
+                    {
+                        <form class="form-inline" action="@Url.Action("SignIn", "Users")" method="post">
+                            <div class="form-group mr-3">
+                                <label class="mr-1 small">Login</label>
+                                <input class="form-control form-control-sm" type="text" name="login" required />
+                            </div>
+                            <div class="form-group mr-3">
+                                <label class="mr-1 small">Password</label>
+                                <input class="form-control form-control-sm" type="password" name="password" required />
+                            </div>
+                            <button class="btn btn-primary btn-sm mr-2" type="submit"> Sign In </button>
+                            <a class="btn btn-info btn-sm" href="@Url.Action("SignUp", "Clients")"> Sign Up </a>
+                        </form>
+                    }
+
+                <ul class="navbar-nav flex-grow-1">
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
                         <li class="nav-item">
-                            <a href="@Url.Action("Tickets", "Tickets")" class="nav-link text-dark"> Tickets </a>
+                            <a href="@Url.Action("MyTickets", "Clients")" class="nav-link text-dark"> My Tickets </a>
                         </li>
+
                         <li class="nav-item">
-                            <a href="@Url.Action("MyTickets", "User")" class="nav-link text-dark"> My Tickets </a>
+                            <a href="@Url.Action("ManageTickets", "Tickets")" class="nav-link text-dark"> Manage Tickets </a>
                         </li>
-                    </ul>
+                    }
+                </ul>
                 </div>
             </div>
         </nav>
@@ -47,6 +75,18 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        function getClientPoints() {
+            $.getJSON("/Clients/Points")
+                .done(function (response) {
+                    $("#points").text(response.points);
+                });
+        }
+
+        getClientPoints();
+    </script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
